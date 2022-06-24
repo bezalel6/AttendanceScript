@@ -14,32 +14,6 @@ clr.AddReference("IronPython.Modules.dll")
 #   Import your Settings class
 from Settings_Module import MySettings
 
-
-
-# PERMISSION = "moderator"
-
-# START_CMD = "!attend-start"
-# HELP_CMD = "!attend"
-# STOP_CMD = "!attend-stop"
-# LIST_ATTENDING = "!attend-list"
-# ATTEND_CMD = ["o7","brodyt1hey"]
-
-# ATTENDED_MSG = "thank you for attending!"
-# NOT_ATTENDING_MSG = "the streamer is not taking attendence at the moment"
-
-# START_MSG = "attendence started! type "
-# for c in ATTEND_CMD:
-#     START_MSG+= c+" "
-# START_MSG += "to attend"
-
-# STOP_MSG = "attendence stopped"
-
-# HELP ="""
-# once attendence has started, you can type {0} to attend.
-# type {1} to see currently attending users.
-# {2}s can control attendence by {3} to start taking attendence, and {4} to stop.
-# """.format(' '.join(ATTEND_CMD),LIST_ATTENDING,PERMISSION,START_CMD,STOP_CMD).replace('\n',' ')
-
 #---------------------------
 #   Define Global Variables
 #---------------------------
@@ -114,7 +88,12 @@ def Execute(data):
             elif cmd==ScriptSettings.StopCmd:
                 isTakingAttendence = False
                 res=ScriptSettings.StopMessage
-                
+                if ScriptSettings.ExportPath!="":
+                    path = ""+ScriptSettings.ExportPath
+                    if not path.endswith('.txt'):
+                        path+='.txt'
+                    with open(path, 'w') as f:
+                        f.write('\n'.join(Attendind))
        
         if res!="":
             Parent.SendStreamMessage(res)    # Send your message to chat 
@@ -150,7 +129,6 @@ def ReloadSettings(jsonData):
     #   Load settings
     SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
     ScriptSettings = MySettings(SettingsFile)
-
     return
 
 #---------------------------
