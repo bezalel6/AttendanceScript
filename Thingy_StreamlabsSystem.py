@@ -40,18 +40,6 @@ from Settings_Module import MySettings
 # {2}s can control attendence by {3} to start taking attendence, and {4} to stop.
 # """.format(' '.join(ATTEND_CMD),LIST_ATTENDING,PERMISSION,START_CMD,STOP_CMD).replace('\n',' ')
 
-
-
-#---------------------------
-#   [Required] Script Information
-#---------------------------
-ScriptName = "Thingy Script"
-Website = "https://www.twitch.tv/brodytheginger"
-Description = HELP_CMD+" to see help"
-Creator = "bezalel6"
-Version = "1.0.0.0"
-
-
 #---------------------------
 #   Define Global Variables
 #---------------------------
@@ -65,20 +53,20 @@ Attendind = []
 
 isTakingAttendence = False
 
-
-def MyInitializeSettings():
-    global PERMISSION,START_CMD,HELP_CMD,STOP_CMD,LIST_ATTENDING,ATTEND_CMD,ATTENDED_MSG,NOT_ATTENDING_MSG,START_MSG,STOP_MSG,HELP
-    # START_CMD = ScriptSettings.Attend
-    # raise RuntimeError(', '.join(dir(ScriptSettings)))
-    START_CMD=ScriptSettings.StartCmd
-    # raise RuntimeError(START_CMD)
-    return
+#---------------------------
+#   [Required] Script Information
+#---------------------------
+ScriptName = "Thingy Script"
+Website = "https://www.twitch.tv/brodytheginger"
+Description = ""
+Creator = "bezalel6"
+Version = "1.0.0.0"
 
 #---------------------------
 #   [Required] Initialize Data (Only called on load)
 #---------------------------
 def Init():
-
+    global ScriptSettings
     #   Create Settings Directory
     directory = os.path.join(os.path.dirname(__file__), "Settings")
     if not os.path.exists(directory):
@@ -87,9 +75,7 @@ def Init():
     #   Load settings
     SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
     ScriptSettings = MySettings(SettingsFile)
-    ReloadSettings(ScriptSettings)
 
-    MyInitializeSettings()
     # ScriptSettings.Response = "Overwritten pong! ^_^"
     return
 
@@ -104,30 +90,31 @@ def Execute(data):
     if data.IsChatMessage():
         cmd=data.Message.lower()
         res=""
-        if cmd in ATTEND_CMD:
+        if cmd in ScriptSettings.AttendCmds:
             if isTakingAttendence:
-                res=ATTENDED_MSG
+                res=ScriptSettings.AttendMessage
                 if not data.User in Attendind:
                     Attendind.append(data.User)
-                
-                res+=" attending: "+" ".join(Attendind)
+                if res!="":
+                    res+=" attending: "+", ".join(Attendind)
             # else:
                 # res=NOT_ATTENDING_MSG
 
-        elif cmd==LIST_ATTENDING:
+        elif cmd==ScriptSettings.ListAttending:
+            
             res="attending: "+" ".join(Attendind)
+        elif cmd==ScriptSettings.HelpCmd:
+            res=ScriptSettings.HelpMessage
 
-        elif cmd==HELP_CMD:
-            res=HELP
-
-        elif Parent.HasPermission(data.User, PERMISSION, ScriptSettings.UserSpecific):
-            if cmd==START_CMD:
+        elif Parent.HasPermission(data.User, ScriptSettings.Permission, ScriptSettings.UserSpecific):
+            if cmd==ScriptSettings.StartCmd:
                 isTakingAttendence = True
                 Attendind = []
-                res = START_MSG
-            elif cmd==STOP_CMD:
+                res = ScriptSettings.StartMessage
+            elif cmd==ScriptSettings.StopCmd:
                 isTakingAttendence = False
-                res=STOP_MSG
+                res=ScriptSettings.StopMessage
+                
        
         if res!="":
             Parent.SendStreamMessage(res)    # Send your message to chat 
@@ -150,11 +137,20 @@ def Parse(parseString, userid, username, targetid, targetname, message):
 #   [Optional] Reload Settings (Called when a user clicks the Save Settings button in the Chatbot UI)
 #---------------------------
 def ReloadSettings(jsonData):
+    global ScriptSettings
     # raise RuntimeError(' '.join(dir(jsonData)))
     # Execute json reloading here
     ScriptSettings.__dict__ = json.loads(jsonData)
     ScriptSettings.Save(SettingsFile)
-    MyInitializeSettings()
+    #   Create Settings Directory
+    directory = os.path.join(os.path.dirname(__file__), "Settings")
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    #   Load settings
+    SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
+    ScriptSettings = MySettings(SettingsFile)
+
     return
 
 #---------------------------

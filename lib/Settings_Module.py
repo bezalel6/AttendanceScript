@@ -11,13 +11,17 @@ class MySettings(object):
 			if(settingsfile):raise e
 			self.Permission = "moderator"
 			self.UserSpecific = ""
-			self.Attend="o7 brodyt1hey".split(' ')
-			self.Help =  "once attendence has started, you can type o7 brodyt1hey to attend. type !attend-list to see currently attending users. moderators can control attendence by !attend-start to start taking attendence, and !attend-stop to stop."
-			self.HelpMessage="!attend"
+			self.AttendCmds="o7 brodyt1hey".split(' ')
+			self.AttendMessage='Thank you for attending!'
+			self.HelpMessage =  "once attendence has started, you can type o7 brodyt1hey to attend. type !attend-list to see currently attending users. moderators can control attendence by !attend-start to start taking attendence, and !attend-stop to stop.sss"
+			self.HelpCmd="!attend"
 			self.ListAttending='!attend-list'
 			self.StartCmd='!attend-start'
+			self.StartMessage='attendance started!'
 			self.StopCmd='!attend-stop'
+			self.StopMessage='attendance stopped!'
 			self.ExportPath=''
+			
 
 
 
@@ -32,6 +36,7 @@ class MySettings(object):
 				json.dump(self.__dict__, f, encoding="utf-8")
 			with codecs.open(settingsfile.replace("json", "js"), encoding="utf-8-sig", mode="w+") as f:
 				f.write("var settings = {0};".format(json.dumps(self.__dict__, encoding='utf-8')))
-		except:
-			Parent.Log(ScriptName, "Failed to save settings to file.")
+		except Exception as e:
+			# Parent.Log(ScriptName, "Failed to save settings to file.")
+			raise e
 		return
