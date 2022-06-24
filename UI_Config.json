@@ -1,0 +1,11 @@
+{
+  "output_file": "Settings/settings.json",
+  "Permission": {
+    "type": "dropdown",
+    "value": "everyone",
+    "items": ["everyone", "moderator", "subscriber", "user_specific", "editor"],
+    "label": "Permission",
+    "tooltip": "Who is able to control the state of the attendence",
+    "group": "Core"
+  }
+}
