@@ -16,29 +16,29 @@ from Settings_Module import MySettings
 
 
 
-PERMISSION = "moderator"
+# PERMISSION = "moderator"
 
-START_CMD = "!attend-start"
-HELP_CMD = "!attend"
-STOP_CMD = "!attend-stop"
-LIST_ATTENDING = "!attend-list"
-ATTEND_CMD = ["o7","brodyt1hey"]
+# START_CMD = "!attend-start"
+# HELP_CMD = "!attend"
+# STOP_CMD = "!attend-stop"
+# LIST_ATTENDING = "!attend-list"
+# ATTEND_CMD = ["o7","brodyt1hey"]
 
-ATTENDED_MSG = "thank you for attending!"
-NOT_ATTENDING_MSG = "the streamer is not taking attendence at the moment"
+# ATTENDED_MSG = "thank you for attending!"
+# NOT_ATTENDING_MSG = "the streamer is not taking attendence at the moment"
 
-START_MSG = "attendence started! type "
-for c in ATTEND_CMD:
-    START_MSG+= c+" "
-START_MSG += "to attend"
+# START_MSG = "attendence started! type "
+# for c in ATTEND_CMD:
+#     START_MSG+= c+" "
+# START_MSG += "to attend"
 
-STOP_MSG = "attendence stopped"
+# STOP_MSG = "attendence stopped"
 
-HELP ="""
-once attendence has started, you can type {0} to attend.
-type {1} to see currently attending users.
-{2}s can control attendence by {3} to start taking attendence, and {4} to stop.
-""".format(' '.join(ATTEND_CMD),LIST_ATTENDING,PERMISSION,START_CMD,STOP_CMD).replace('\n',' ')
+# HELP ="""
+# once attendence has started, you can type {0} to attend.
+# type {1} to see currently attending users.
+# {2}s can control attendence by {3} to start taking attendence, and {4} to stop.
+# """.format(' '.join(ATTEND_CMD),LIST_ATTENDING,PERMISSION,START_CMD,STOP_CMD).replace('\n',' ')
 
 
 
@@ -59,6 +59,7 @@ global SettingsFile
 SettingsFile = ""
 global ScriptSettings
 ScriptSettings = MySettings()
+
 global Attending
 Attendind = []
 
@@ -68,9 +69,10 @@ isTakingAttendence = False
 def MyInitializeSettings():
     global PERMISSION,START_CMD,HELP_CMD,STOP_CMD,LIST_ATTENDING,ATTEND_CMD,ATTENDED_MSG,NOT_ATTENDING_MSG,START_MSG,STOP_MSG,HELP
     # START_CMD = ScriptSettings.Attend
-    raise RuntimeError(', '.join(dir(ScriptSettings)))
+    # raise RuntimeError(', '.join(dir(ScriptSettings)))
+    START_CMD=ScriptSettings.StartCmd
+    # raise RuntimeError(START_CMD)
     return
-
 
 #---------------------------
 #   [Required] Initialize Data (Only called on load)
@@ -85,12 +87,11 @@ def Init():
     #   Load settings
     SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
     ScriptSettings = MySettings(SettingsFile)
-    
+    ReloadSettings(ScriptSettings)
 
     MyInitializeSettings()
     # ScriptSettings.Response = "Overwritten pong! ^_^"
     return
-
 
 
 #---------------------------
@@ -119,7 +120,7 @@ def Execute(data):
         elif cmd==HELP_CMD:
             res=HELP
 
-        elif Parent.HasPermission(data.User, PERMISSION, ScriptSettings.Info):
+        elif Parent.HasPermission(data.User, PERMISSION, ScriptSettings.UserSpecific):
             if cmd==START_CMD:
                 isTakingAttendence = True
                 Attendind = []
@@ -149,10 +150,11 @@ def Parse(parseString, userid, username, targetid, targetname, message):
 #   [Optional] Reload Settings (Called when a user clicks the Save Settings button in the Chatbot UI)
 #---------------------------
 def ReloadSettings(jsonData):
+    # raise RuntimeError(' '.join(dir(jsonData)))
     # Execute json reloading here
     ScriptSettings.__dict__ = json.loads(jsonData)
     ScriptSettings.Save(SettingsFile)
-    
+    MyInitializeSettings()
     return
 
 #---------------------------
