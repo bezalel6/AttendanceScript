@@ -6,6 +6,7 @@ import sys
 import json
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib")) #point at lib folder for classes / references
 
+
 import clr
 clr.AddReference("IronPython.SQLite.dll")
 clr.AddReference("IronPython.Modules.dll")
@@ -63,6 +64,14 @@ Attendind = []
 
 isTakingAttendence = False
 
+
+def MyInitializeSettings():
+    global PERMISSION,START_CMD,HELP_CMD,STOP_CMD,LIST_ATTENDING,ATTEND_CMD,ATTENDED_MSG,NOT_ATTENDING_MSG,START_MSG,STOP_MSG,HELP
+    # START_CMD = ScriptSettings.Attend
+    raise RuntimeError(', '.join(dir(ScriptSettings)))
+    return
+
+
 #---------------------------
 #   [Required] Initialize Data (Only called on load)
 #---------------------------
@@ -76,6 +85,9 @@ def Init():
     #   Load settings
     SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
     ScriptSettings = MySettings(SettingsFile)
+    
+
+    MyInitializeSettings()
     # ScriptSettings.Response = "Overwritten pong! ^_^"
     return
 
@@ -98,8 +110,8 @@ def Execute(data):
                     Attendind.append(data.User)
                 
                 res+=" attending: "+" ".join(Attendind)
-            else:
-                res=NOT_ATTENDING_MSG
+            # else:
+                # res=NOT_ATTENDING_MSG
 
         elif cmd==LIST_ATTENDING:
             res="attending: "+" ".join(Attendind)
@@ -140,6 +152,7 @@ def ReloadSettings(jsonData):
     # Execute json reloading here
     ScriptSettings.__dict__ = json.loads(jsonData)
     ScriptSettings.Save(SettingsFile)
+    
     return
 
 #---------------------------

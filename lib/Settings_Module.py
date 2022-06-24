@@ -8,11 +8,17 @@ class MySettings(object):
 			with codecs.open(settingsfile, encoding="utf-8-sig", mode="r") as f:
 				self.__dict__ = json.load(f, encoding="utf-8")
 		except:
-			self.Command = "!ping"
-			self.Response = "pong! ^_^"
-			self.Cooldown = 10
-			self.Permission = "everyone"
-			self.Info = ""
+			self.Permission = "moderator"
+			self.UserSpecific = ""
+			self.Attend="o7 brodyt1hey"
+			self.Help =  "once attendence has started, you can type o7 brodyt1hey to attend. type !attend-list to see currently attending users. moderators can control attendence by !attend-start to start taking attendence, and !attend-stop to stop."
+			self.HelpMessage="!attend"
+			self.ListAttending='!attend-list'
+			self.StartCmd='!attend-start'
+			self.StopCmd='!attend-stop'
+			self.ExportPath=''
+
+
 
 	def Reload(self, jsondata):
 		self.__dict__ = json.loads(jsondata, encoding="utf-8")
