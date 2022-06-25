@@ -10,5 +10,7 @@
   "StartMessage": "attendance started!",
   "StopCmd": "!attend-stop",
   "StopMessage": "attendance stopped!",
-  "ExportPath": ""
+  "ExportPath": "",
+  "cd": 1230,
+  "Time": 0
 }

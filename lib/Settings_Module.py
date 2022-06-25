@@ -21,6 +21,7 @@ class MySettings(object):
 			self.StopCmd='!attend-stop'
 			self.StopMessage='attendance stopped!'
 			self.ExportPath=''
+			self.Time = 0
 			
 
 

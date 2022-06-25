@@ -85,5 +85,12 @@
     "label": "Export to file",
     "tooltip": "",
     "group": "Core"
+  },
+  "Time": {
+    "type": "numberbox",
+    "label": "Time for attending (seconds) set 0 to disable the timer",
+    "value": 0,
+    "tooltip": "Time for attending in seconds.",
+    "group": "Core"
   }
 }
