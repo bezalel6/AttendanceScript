@@ -4,30 +4,30 @@
     "type": "dropdown",
     "value": "moderator",
     "items": ["everyone", "moderator", "subscriber", "user_specific", "editor"],
-    "label": "Permission",
+    "label": "Who can start and end the roll call",
     "tooltip": "Who is able to control the attendence",
-    "group": "Core"
+    "group": "Permission"
   },
   "UserSpecific": {
     "type": "textbox",
     "value": "",
-    "label": "User (used for the user specific permission)",
+    "label": "User (used for the user_specific permission)",
     "tooltip": "This field should only be filled when using the user_specific permission.",
-    "group": "Core"
+    "group": "Permission"
   },
   "AttendCmds": {
     "type": "textbox",
     "value": "o7 brodyt1hey",
     "label": "Attend Commands seperated by spaces",
     "tooltip": "",
-    "group": "Core"
+    "group": "Participants"
   },
   "AttendMessage": {
     "type": "textbox",
     "value": "Thank you for attending!",
     "label": "Response for attending",
     "tooltip": "leave empty to disable",
-    "group": "Core"
+    "group": "Participants"
   },
 
   "HelpCmd": {
@@ -35,62 +35,62 @@
     "value": "!attend",
     "label": "Help Command",
     "tooltip": "",
-    "group": "Core"
+    "group": "Participants"
   },
   "HelpMessage": {
     "type": "textbox",
     "value": "once attendence has started, you can type o7 brodyt1hey to attend. type !attend-list to see currently attending users. moderators can control attendence by !attend-start to start taking attendence, and !attend-stop to stop.",
     "label": "Help Message",
     "tooltip": "",
-    "group": "Core"
+    "group": "Participants"
   },
   "ListAttending": {
     "type": "textbox",
     "value": "!attend-list",
     "label": "List all attending users",
     "tooltip": "",
-    "group": "Core"
+    "group": "Participants"
   },
   "StartCmd": {
     "type": "textbox",
     "value": "!attend-start",
     "label": "Start taking attendence command",
     "tooltip": "",
-    "group": "Core"
+    "group": "super"
   },
   "StartMessage": {
     "type": "textbox",
     "value": "attendence started!",
     "label": "Starting message",
     "tooltip": "",
-    "group": "Core"
+    "group": "super"
   },
   "StopCmd": {
     "type": "textbox",
     "value": "!attend-stop",
     "label": "Stop taking attendance and export to file command",
     "tooltip": "",
-    "group": "Core"
+    "group": "super"
   },
   "StopMessage": {
     "type": "textbox",
     "value": "attendance stopped!",
     "label": "Stopped message",
     "tooltip": "",
-    "group": "Core"
-  },
-  "ExportPath": {
-    "type": "textbox",
-    "value": "",
-    "label": "Export to file",
-    "tooltip": "",
-    "group": "Core"
+    "group": "super"
   },
   "Time": {
     "type": "numberbox",
     "label": "Time for attending (seconds) set 0 to disable the timer",
     "value": 0,
     "tooltip": "Time for attending in seconds.",
-    "group": "Core"
+    "group": "super"
+  },
+  "ExportPath": {
+    "type": "textbox",
+    "value": "",
+    "label": "Export to file path",
+    "tooltip": "e.g. C:/Users/MrGinger/Desktop/attending.txt",
+    "group": "super"
   }
 }

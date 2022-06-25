@@ -12,5 +12,5 @@
   "StopMessage": "attendance stopped!",
   "ExportPath": "",
   "cd": 1230,
-  "Time": 0
+  "Time": 10
 };
